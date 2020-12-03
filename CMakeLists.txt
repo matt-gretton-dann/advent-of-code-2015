@@ -5,5 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-
+add_subdirectory(puzzle-01-01)
 add_subdirectory(puzzle-01-02)
+add_subdirectory(puzzle-02-01)
