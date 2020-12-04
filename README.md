@@ -20,7 +20,7 @@ cmake -Bbuild -S.
 cmake --build build
 ```
 
-Note that some of the puzzles require OpenSSL for the MD5 implementation.  Install the development libraries.  On macOS this also requires you to pass -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl to `cmake`.
+Note that some of the puzzles require OpenSSL for the MD5 implementation.  On macOS this also requires you to pass an appropariate value for `OPENSSL_ROOT_DIR` to cmake.  On x86 this is `-DOPENSSL_ROOT_DIR=/usr/local/opt/openssl` and on AArch64 this is `-DOPENSSL_ROOT_DIR=/opt/homebrew/opt/openssl`.
 
 To run each puzzle then do:
 
