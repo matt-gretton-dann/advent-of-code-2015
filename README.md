@@ -11,7 +11,7 @@ The solutions are authored by Matthew Gretton-Dann, and Copyright 2020, Matthew 
 
 ## Building
 
-The build system uses CMake:
+The build system uses CMake.
 
 ```sh
 git clone https://github.com/matt-gretton-dann/advent-of-code-2015/
@@ -19,6 +19,8 @@ cd advent-of-code-2015
 cmake -Bbuild -S.
 cmake --build build
 ```
+
+Note that some of the puzzles require OpenSSL for the MD5 implementation.  Install the development libraries.  On macOS this also requires you to pass -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl to `cmake`.
 
 To run each puzzle then do:
 
