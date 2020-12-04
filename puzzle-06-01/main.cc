@@ -6,7 +6,10 @@
 #include <string>
 
 enum class Action { TurnOn, Toggle, TurnOff };
+
 using Point = std::pair<unsigned, unsigned>;
+
+/// A command
 struct Command {
   Command(std::string const &s) {
     const char *re =
@@ -16,8 +19,6 @@ struct Command {
       std::cerr << "Unable to interpret:" << s << "\n";
       assert(false);
     }
-    std::cout << m.str(1) << " " << m.str(2) << "," << m.str(3) << "-"
-              << m.str(4) << "," << m.str(5) << "\n";
     if (m.str(1) == std::string("turn on")) {
       act_ = Action::TurnOn;
     } else if (m.str(1) == std::string("turn off")) {
@@ -38,6 +39,7 @@ struct Command {
   Point top_right_;
 };
 
+/// Array of lights
 template <unsigned N> struct Array {
   Array() noexcept {
     for (unsigned i = 0; i < N; ++i) {
@@ -47,6 +49,7 @@ template <unsigned N> struct Array {
     }
   }
 
+  /// Apply a command
   void apply(Command const &command) noexcept {
     assert(command.bottom_left_.first < N);
     assert(command.bottom_left_.second < N);
@@ -72,6 +75,7 @@ template <unsigned N> struct Array {
     }
   }
 
+  /// How many lights are on
   unsigned num_on() const noexcept {
     unsigned count = 0;
     for (unsigned i = 0; i < N; ++i) {
@@ -83,6 +87,20 @@ template <unsigned N> struct Array {
     return count;
   }
 
+  /// Output a bitmap
+  void bitmap() const {
+    std::cout << "P1\n" << N << " " << N << "\n";
+    for (unsigned i = 0; i < N; ++i) {
+      for (unsigned j = 0; j < N; ++j) {
+        std::cout << (lights_[i][j] ? "1" : "0");
+        if (j % 70 == 0) {
+          std::cout << "\n";
+        }
+      }
+      std::cout << "\n";
+    }
+  }
+
   bool lights_[N][N];
 };
 
@@ -92,6 +110,7 @@ int main(int argc, char **argv) {
     Command cmd(line);
     arr.apply(cmd);
   }
+  arr.bitmap();
   std::cout << arr.num_on() << '\n';
 
   return 0;

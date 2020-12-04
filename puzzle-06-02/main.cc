@@ -16,8 +16,6 @@ struct Command {
       std::cerr << "Unable to interpret:" << s << "\n";
       assert(false);
     }
-    std::cout << m.str(1) << " " << m.str(2) << "," << m.str(3) << "-"
-              << m.str(4) << "," << m.str(5) << "\n";
     if (m.str(1) == std::string("turn on")) {
       act_ = Action::TurnOn;
     } else if (m.str(1) == std::string("turn off")) {
@@ -81,8 +79,25 @@ template <unsigned N> struct Array {
         count += lights_[i][j];
       }
     }
-
     return count;
+  }
+
+  /// Output a bitmap
+  void bitmap() const {
+    unsigned max = 0;
+    for (unsigned i = 0; i < N; ++i) {
+      for (unsigned j = 0; j < N; ++j) {
+        if (lights_[i][j] > max) {
+          max = lights_[i][j];
+        }
+      }
+    }
+    std::cout << "P2\n" << N << " " << N << "\n" << max << "\n";
+    for (unsigned i = 0; i < N; ++i) {
+      for (unsigned j = 0; j < N; ++j) {
+        std::cout << lights_[i][j] << "\n";
+      }
+    }
   }
 
   unsigned lights_[N][N];
@@ -94,6 +109,7 @@ int main(int argc, char **argv) {
     Command cmd(line);
     arr.apply(cmd);
   }
+  arr.bitmap();
   std::cout << arr.brightness() << '\n';
 
   return 0;
