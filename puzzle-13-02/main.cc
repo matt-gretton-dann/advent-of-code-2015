@@ -1,5 +1,6 @@
 #include <cassert>
 #include <cctype>
+#include <climits>
 #include <functional>
 #include <iostream>
 #include <map>
