@@ -45,32 +45,33 @@ unsigned count_combinations(Quantities::const_iterator it,
   return result;
 }
 
-unsigned find_shortest_combination(Quantities const &containers) {
-  unsigned result = UINT_MAX;
+template <typename Fn1, typename Fn2>
+unsigned count_combinations(Quantities const &containers, Quantity amount,
+                            Fn1 base_result, unsigned init_addend, Fn2 adder) {
+  unsigned result = init_addend;
   for (auto it = containers.begin(); it != containers.end(); ++it) {
-    result =
-        std::min(result, count_combinations(
-                             it, containers.end(), total, 0,
-                             [](unsigned depth) { return depth; }, UINT_MAX,
-                             [](unsigned current, unsigned child_score) {
-                               return std::min(current, child_score);
-                             }));
+    result = adder(result, count_combinations(it, containers.end(), total, 0,
+                                              base_result, init_addend, adder));
   }
   return result;
 }
 
+unsigned find_shortest_combination(Quantities const &containers) {
+  return count_combinations(
+      containers, total, [](unsigned depth) { return depth; }, UINT_MAX,
+      [](unsigned current, unsigned child_score) {
+        return std::min(current, child_score);
+      });
+}
+
 unsigned count_min_length_combinations(Quantities const &containers,
                                        unsigned expected_depth) {
-  unsigned result = 0;
-  for (auto it = containers.begin(); it != containers.end(); ++it) {
-    result += count_combinations(
-        it, containers.end(), total, 0,
-        [expected_depth](unsigned depth) { return depth == expected_depth; }, 0,
-        [](unsigned current, unsigned child_score) {
-          return current + child_score;
-        });
-  }
-  return result;
+  return count_combinations(
+      containers, total,
+      [expected_depth](unsigned depth) { return depth == expected_depth; }, 0,
+      [](unsigned current, unsigned child_score) {
+        return current + child_score;
+      });
 }
 
 int main(int argc, char **argv) {
