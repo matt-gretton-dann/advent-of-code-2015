@@ -1,0 +1,1 @@
+add_executable(puzzle-15-02 main.cc)
