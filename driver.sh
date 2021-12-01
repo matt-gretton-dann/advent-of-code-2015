@@ -33,7 +33,15 @@ if [ ! -d "${srcdir}/${puzzle}" ]; then
 fi
 
 if [ ! -e "${exe}" ]; then
-    cmake -Bbuild -S "${srcdir}"
+    opts=
+    if [ "$(uname -s)" == "Darwin" ]; then
+      if [ "$(uname -m)" == "arm64" ]; then
+        opts="-DOPENSSL_ROOT_DIR=/opt/homebrew/opt/openssl"
+      else
+        opts="-DOPENSSL_ROOT_DIR=/usr/local/opt/openssl"
+      fi
+    fi
+    cmake -Bbuild -S "${srcdir}" ${opts}
     cmake --build build --target "${puzzle}"
 fi
 
