@@ -1,3 +1,7 @@
+# ARCHIVED: USE advent-of-code instead
+
+This repo has been archived use https://github.com/matt-gretton-dann/advent-of-code instead, which contains multiple years of Advent of Code.
+
 # C++ Solutions to Advent of Code 2015
 
 This repository contains solutions to the [Advent of Code 2015](https://adventofcode.com/2015)
